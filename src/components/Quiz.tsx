@@ -9,8 +9,10 @@ const Quiz = () => {
   const [number, setNumber] = useState(0);
   const [quizOver, setQuizOver] = useState(false);
   const [quizResult, setQuizResult]: any = useState({});
+  const [isClicked, setIsClicked] = useState(false);
+
   // Progress Bar Props
-  const [completed, setCompleted]: any = useState(0);
+  const [completed, setCompleted]: any = useState(10);
 
   const TOTAL_QUESTIONS = 10;
 
@@ -26,6 +28,7 @@ const Quiz = () => {
   };
 
   const addValues = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setIsClicked(true);
     let values = event.currentTarget.value.split(",").join(""); //removes any extra commas
     let valuesArray = Array.from(values);
     let valuesInt = valuesArray.map((value) => {
@@ -35,6 +38,7 @@ const Quiz = () => {
   };
 
   const nextQuestion = () => {
+    setIsClicked(false);
     const nextQuestion = number + 1;
     setCompleted(completed + 10);
     if (nextQuestion === TOTAL_QUESTIONS) {
@@ -46,7 +50,7 @@ const Quiz = () => {
 
   //Takes an array and finds the most common value.
   const getResults = async () => {
-    setCompleted(completed + 10);
+    setIsClicked(false);
     setQuizOver(true);
     let maxFreq = 1;
     let counter = 0;
@@ -76,7 +80,7 @@ const Quiz = () => {
   const restartQuiz = () => {
     setQuizOver(false);
     setNumber(0);
-    setCompleted(0);
+    setCompleted(10);
     setResultsArray([]);
     setQuizResult({});
     getQuizQuestions();
@@ -86,8 +90,11 @@ const Quiz = () => {
     <>
       <main className="container">
         <h1>Adventure Time Quiz!</h1>
-        <p>Find out which character you're most like by taking the quiz below.</p>
-        <ProgressBar completed={completed}/>
+        <p>
+          Find out which character you're most like by taking the quiz below.
+        </p>
+        {!quizOver ? <ProgressBar completed={completed} /> : null}
+
         {quizQuestions.length > 0 && !quizOver ? (
           <QuestionCard
             question={quizQuestions[number].question}
@@ -111,18 +118,21 @@ const Quiz = () => {
           />
         ) : null}
         {!quizOver && quizQuestions.length > 0 && number < 9 ? (
-          <button type="button" onClick={nextQuestion}>
+          <button
+            type="button"
+            onClick={nextQuestion}
+            className={!!isClicked ? "secondary-btn" : "hidden"}
+          >
             NEXT
           </button>
         ) : null}
         {!quizOver && number === 9 ? (
-          <button type="button" onClick={getResults}>
+          <button
+            type="button"
+            onClick={getResults}
+            className={!!isClicked ? "secondary-btn" : "hidden"}
+          >
             GET RESULTS
-          </button>
-        ) : null}
-        {!!quizOver ? (
-          <button type="button" onClick={restartQuiz}>
-            RESTART
           </button>
         ) : null}
 
@@ -132,6 +142,12 @@ const Quiz = () => {
             results_text={quizResult.results_text}
             character_name={quizResult.character_name}
           />
+        ) : null}
+
+        {!!quizOver ? (
+          <button type="button" onClick={restartQuiz} className="secondary-btn">
+            RESTART
+          </button>
         ) : null}
       </main>
     </>

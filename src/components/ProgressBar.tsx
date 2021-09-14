@@ -5,7 +5,6 @@ type Props = {
 const ProgressBar: React.FC<Props> = ({completed}) => {
     const containerStyles = {
         height: 25,
-        width: '320px',
         backgroundColor: "#F1FDFF",
         borderRadius: 50,
         margin: '0 auto'
@@ -27,7 +26,7 @@ const ProgressBar: React.FC<Props> = ({completed}) => {
 
       }
     return (
-        <div style={containerStyles}>
+        <div style={containerStyles} className="progress-bar">
             <div style={fillerStyles}>
                 <span style={labelStyles}></span>
             </div>

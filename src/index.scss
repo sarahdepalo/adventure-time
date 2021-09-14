@@ -26,20 +26,77 @@ body {
 
 .container {
   margin: 0 auto;
+  margin-bottom: 100px;
   background-color: rgba(255, 255, 255, 0.74);
   border-radius: 25px;
   padding: 10px;
   padding-bottom: 40px;
   width: 700px;
+  box-shadow: 0px 15px 20px rgba(56, 56, 56, 0.31);
   
   button {
     font-size: 16px;
+    display: block;
+    margin: 0 auto;
+    padding: 10px;
+    height: 45px;
+    text-transform: uppercase;
+    letter-spacing: 1.25px;
+    margin-bottom: 15px;
+    width: 50%;
+    border: 0px;
+    border-radius: 25px;
+    font-weight: bold;
+    color: white;
+    background-image: linear-gradient(to right, #ed6ea0, #ec8c69, #f7186a , #FBB03B);
+    background-size: 300% 100%;
+    box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+    cursor: pointer;
   }
+
+  button:hover {
+    background-position: 100% 0;
+    -o-transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+  }
+
+  button:focus {
+    background-position: 100% 0;
+  }
+
+  .secondary-btn {
+    margin-top: 25px;
+    background-image: linear-gradient(to right, #0963E6, #09b2e6, #0BC3E8 , #0b7de8);
+    box-shadow: 0 4px 15px 0 rgba(93, 121, 247, 0.75);
+  }
+
+
+.hidden {
+  display: none;
+}
+
 
   img {
     height: auto;
     max-width: 50%;
     border-radius: 25px;
+    box-shadow: 0px 15px 20px rgba(168, 168, 168, 0.31);
+  }
+}
+
+.progress-bar {
+  width: 50%;
+}
+
+
+.results {
+  p {
+    padding: 5px 20px;
+    line-height: 1.5;
   }
 }
 
@@ -53,5 +110,61 @@ body {
 @media screen and (min-width: 1000px) {
   html {
     font-size: 22px;
+  }
+}
+
+
+// Responsiveness
+
+@media screen and (max-width: 960px) {
+  body {
+    margin-top: 80px;
+  }
+  .container {
+    width: 320px;
+
+    button {
+      width: 90%;
+      font-size: 14px;
+    }
+
+    img {
+      max-width: 60%;
+    }
+  }
+
+  .progress-bar {
+    width: 90%;
+  }
+
+}
+
+@media only screen and (device-width: 768px) {
+  .container {
+    width: 500px;
+  }
+}
+
+// galaxy fold 
+
+@media (max-width: 320px) {
+  .container {
+    width: 250px;
+    button {
+      font-size: 13px;
+    }
+    img {
+      max-width: 70%;
+    }
+  }
+
+  .progress-bar {
+    width: 100%;
+  }
+
+  .results {
+    p {
+      padding: 5px 10px;
+    }
   }
 }
