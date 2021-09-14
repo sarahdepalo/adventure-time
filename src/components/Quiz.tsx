@@ -21,8 +21,8 @@ const Quiz = () => {
   }, []);
 
   const getQuizQuestions = async () => {
-    const localUrl = "http://localhost:3000/questions";
-    const response = await fetch(localUrl).then((response) => response.json());
+    const url = "https://adventure-time-quiz.herokuapp.com/questions";
+    const response = await fetch(url).then((response) => response.json());
     const questions = response.sort(() => Math.random() - 0.5);
     setQuizQuestions(questions);
   };
@@ -69,8 +69,8 @@ const Quiz = () => {
       counter = 0;
     }
     console.log(value);
-    const localUrl = `http://localhost:3000/results/${value}`;
-    const characterResults = await fetch(localUrl).then((response) =>
+    const url = `https://adventure-time-quiz.herokuapp.com/results/${value}`;
+    const characterResults = await fetch(url).then((response) =>
       response.json()
     );
     console.log(characterResults);
