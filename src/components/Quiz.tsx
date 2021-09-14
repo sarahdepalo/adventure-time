@@ -1,11 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import QuestionCard from "./QuestionCard";
 import Results from "./Results";
-// TO DO:
-//Write the restart button
-//Fix any small bugs (getting rid of next button at the start - or just loading questions at mount)
-//Write the rest of the character profiles
-//Start some css, maybe use styled components this time?
 
 const Quiz = () => {
   const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
@@ -16,19 +11,21 @@ const Quiz = () => {
 
   const TOTAL_QUESTIONS = 10;
 
+  useEffect(() => {
+    getQuizQuestions();
+  }, []);
+
   const getQuizQuestions = async () => {
     const localUrl = "http://localhost:3000/questions";
     const response = await fetch(localUrl).then((response) => response.json());
     const questions = response.sort(() => Math.random() - 0.5);
     setQuizQuestions(questions);
-    console.log("API RESPONSE IS: ", response);
   };
 
   const addValues = (event: React.MouseEvent<HTMLButtonElement>) => {
     let values = event.currentTarget.value.split(",").join(""); //removes any extra commas
     let valuesArray = Array.from(values);
     let valuesInt = valuesArray.map((value) => {
-      //turns each array value into an integer
       return parseInt(value, 10);
     });
     setResultsArray([...resultsArray, ...valuesInt]);
@@ -36,14 +33,16 @@ const Quiz = () => {
 
   const nextQuestion = () => {
     const nextQuestion = number + 1;
-    if (nextQuestion === TOTAL_QUESTIONS - 1) {
+    if (nextQuestion === TOTAL_QUESTIONS) {
       setQuizOver(true);
     } else {
       setNumber(nextQuestion);
     }
   };
 
+  //Takes an array and finds the most common value. 
   const getResults = async () => {
+    setQuizOver(true);
     let maxFreq = 1;
     let counter = 0;
     let value;
@@ -61,7 +60,7 @@ const Quiz = () => {
       counter = 0;
     }
     console.log(value);
-    const localUrl = `http://localhost:3000/results/1`;
+    const localUrl = `http://localhost:3000/results/${value}`;
     const characterResults = await fetch(localUrl).then((response) =>
       response.json()
     );
@@ -69,18 +68,26 @@ const Quiz = () => {
     setQuizResult(characterResults);
   };
 
+  const restartQuiz = () => {
+      setQuizOver(false);
+      setNumber(0);
+      setResultsArray([]);
+      setQuizResult({});
+      getQuizQuestions();
+  }
+
   return (
     <>
-      {!quizOver ? (
+      {/* {!quizOver && number === 0 ? (
         <button type="button" onClick={getQuizQuestions}>
           Start Quiz
         </button>
-      ) : null}
+      ) : null} */}
 
       {quizQuestions.length > 0 && !quizOver ? (
         <QuestionCard
           totalQuestions={TOTAL_QUESTIONS}
-          number={number}
+          number={number + 1}
           question={quizQuestions[number].question}
           answer1={quizQuestions[number].answers[0].answer}
           answer1CharacterValues={
@@ -101,15 +108,17 @@ const Quiz = () => {
           addValues={addValues}
         />
       ) : null}
-      {!quizOver && number !== TOTAL_QUESTIONS - 1 ? (
+      {!quizOver && quizQuestions.length > 0 && number < 9 ? (
         <button type="button" onClick={nextQuestion}>
           NEXT
         </button>
-      ) : (
-        <button type="button" onClick={getResults}>
-          GET RESULTS
+      ) : null}
+      {!quizOver && number === 9 ? <button type="button" onClick={getResults}>GET RESULTS</button> : null}
+      {!!quizOver ? (
+        <button type="button" onClick={restartQuiz}>
+          RESTART
         </button>
-      )}
+      ) : null}
 
       {!!quizOver && quizResult !== null ? (
         <Results

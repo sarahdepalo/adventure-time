@@ -17,7 +17,7 @@ const QuestionCard: React.FC<Props> = ({totalQuestions, number, question, answer
     return (
         //add in a progress bar and replace these numbers later!
         <>
-        <p>{number + 1}/{totalQuestions}</p>
+        <p>{number}/{totalQuestions}</p>
         <h3>{question}</h3>
         <button type="button" onClick={(event) => addValues(event)} value={answer1CharacterValues}>{answer1}</button>
         <button type="button" onClick={(event) => addValues(event)} value={answer2CharacterValues}>{answer2}</button>
