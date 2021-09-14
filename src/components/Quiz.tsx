@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import QuestionCard from "./QuestionCard";
 import Results from "./Results";
+import ProgressBar from "./ProgressBar";
 
 const Quiz = () => {
   const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
@@ -8,6 +9,8 @@ const Quiz = () => {
   const [number, setNumber] = useState(0);
   const [quizOver, setQuizOver] = useState(false);
   const [quizResult, setQuizResult]: any = useState({});
+  // Progress Bar Props
+  const [completed, setCompleted]: any = useState(0);
 
   const TOTAL_QUESTIONS = 10;
 
@@ -33,6 +36,7 @@ const Quiz = () => {
 
   const nextQuestion = () => {
     const nextQuestion = number + 1;
+    setCompleted(completed + 10);
     if (nextQuestion === TOTAL_QUESTIONS) {
       setQuizOver(true);
     } else {
@@ -40,8 +44,9 @@ const Quiz = () => {
     }
   };
 
-  //Takes an array and finds the most common value. 
+  //Takes an array and finds the most common value.
   const getResults = async () => {
+    setCompleted(completed + 10);
     setQuizOver(true);
     let maxFreq = 1;
     let counter = 0;
@@ -69,64 +74,66 @@ const Quiz = () => {
   };
 
   const restartQuiz = () => {
-      setQuizOver(false);
-      setNumber(0);
-      setResultsArray([]);
-      setQuizResult({});
-      getQuizQuestions();
-  }
+    setQuizOver(false);
+    setNumber(0);
+    setCompleted(0);
+    setResultsArray([]);
+    setQuizResult({});
+    getQuizQuestions();
+  };
 
   return (
     <>
-      {/* {!quizOver && number === 0 ? (
-        <button type="button" onClick={getQuizQuestions}>
-          Start Quiz
-        </button>
-      ) : null} */}
+      <main className="container">
+        <h1>Adventure Time Quiz!</h1>
+        <p>Find out which character you're most like by taking the quiz below.</p>
+        <ProgressBar completed={completed}/>
+        {quizQuestions.length > 0 && !quizOver ? (
+          <QuestionCard
+            question={quizQuestions[number].question}
+            answer1={quizQuestions[number].answers[0].answer}
+            answer1CharacterValues={
+              quizQuestions[number].answers[0].character_values
+            }
+            answer2={quizQuestions[number].answers[1].answer}
+            answer2CharacterValues={
+              quizQuestions[number].answers[1].character_values
+            }
+            answer3={quizQuestions[number].answers[2].answer}
+            answer3CharacterValues={
+              quizQuestions[number].answers[2].character_values
+            }
+            answer4={quizQuestions[number].answers[3].answer}
+            answer4CharacterValues={
+              quizQuestions[number].answers[3].character_values
+            }
+            addValues={addValues}
+          />
+        ) : null}
+        {!quizOver && quizQuestions.length > 0 && number < 9 ? (
+          <button type="button" onClick={nextQuestion}>
+            NEXT
+          </button>
+        ) : null}
+        {!quizOver && number === 9 ? (
+          <button type="button" onClick={getResults}>
+            GET RESULTS
+          </button>
+        ) : null}
+        {!!quizOver ? (
+          <button type="button" onClick={restartQuiz}>
+            RESTART
+          </button>
+        ) : null}
 
-      {quizQuestions.length > 0 && !quizOver ? (
-        <QuestionCard
-          totalQuestions={TOTAL_QUESTIONS}
-          number={number + 1}
-          question={quizQuestions[number].question}
-          answer1={quizQuestions[number].answers[0].answer}
-          answer1CharacterValues={
-            quizQuestions[number].answers[0].character_values
-          }
-          answer2={quizQuestions[number].answers[1].answer}
-          answer2CharacterValues={
-            quizQuestions[number].answers[1].character_values
-          }
-          answer3={quizQuestions[number].answers[2].answer}
-          answer3CharacterValues={
-            quizQuestions[number].answers[2].character_values
-          }
-          answer4={quizQuestions[number].answers[3].answer}
-          answer4CharacterValues={
-            quizQuestions[number].answers[3].character_values
-          }
-          addValues={addValues}
-        />
-      ) : null}
-      {!quizOver && quizQuestions.length > 0 && number < 9 ? (
-        <button type="button" onClick={nextQuestion}>
-          NEXT
-        </button>
-      ) : null}
-      {!quizOver && number === 9 ? <button type="button" onClick={getResults}>GET RESULTS</button> : null}
-      {!!quizOver ? (
-        <button type="button" onClick={restartQuiz}>
-          RESTART
-        </button>
-      ) : null}
-
-      {!!quizOver && quizResult !== null ? (
-        <Results
-          character_img={quizResult.character_img}
-          results_text={quizResult.results_text}
-          character_name={quizResult.character_name}
-        />
-      ) : null}
+        {!!quizOver && quizResult !== null ? (
+          <Results
+            character_img={quizResult.character_img}
+            results_text={quizResult.results_text}
+            character_name={quizResult.character_name}
+          />
+        ) : null}
+      </main>
     </>
   );
 };
