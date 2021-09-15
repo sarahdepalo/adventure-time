@@ -15,7 +15,7 @@ const Results: React.FC<Props> = ({character_img, results_text, character_name})
             <TwitterShareButton
             character_name={character_name}
             url={'https://adventure-time-quiz.netlify.app/'}
-            options={{text: `I took the Adventure Time Personality Quiz and got ${character_name}! Take the quiz to find out who you get at`}}
+            options={{text: `Find out which character you are at `}}
             />
         </div>
     )
