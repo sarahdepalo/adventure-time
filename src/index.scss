@@ -86,6 +86,11 @@ body {
     border-radius: 25px;
     box-shadow: 0px 15px 20px rgba(168, 168, 168, 0.31);
   }
+
+  .spinner {
+    box-shadow: none;
+    height: 100px;
+  }
 }
 
 .progress-bar {

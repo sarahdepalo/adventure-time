@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import QuestionCard from "./QuestionCard";
 import Results from "./Results";
 import ProgressBar from "./ProgressBar";
+import spinner from '../images/spinner.gif';
+//To-Do: add loading spinners and therefore add a isLoading to the state. 
 
 const Quiz = () => {
   const [quizQuestions, setQuizQuestions] = useState<any[]>([]);
@@ -10,6 +12,7 @@ const Quiz = () => {
   const [quizOver, setQuizOver] = useState(false);
   const [quizResult, setQuizResult]: any = useState({});
   const [isClicked, setIsClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Progress Bar Props
   const [completed, setCompleted]: any = useState(10);
@@ -25,6 +28,7 @@ const Quiz = () => {
     const response = await fetch(url).then((response) => response.json());
     const questions = response.sort(() => Math.random() - 0.5);
     setQuizQuestions(questions);
+    setIsLoading(true);
   };
 
   const addValues = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,6 +54,7 @@ const Quiz = () => {
 
   //Takes an array and finds the most common value.
   const getResults = async () => {
+    setIsLoading(false);
     setIsClicked(false);
     setQuizOver(true);
     let maxFreq = 1;
@@ -75,6 +80,7 @@ const Quiz = () => {
     );
     console.log(characterResults);
     setQuizResult(characterResults);
+    setIsLoading(true);
   };
 
   const restartQuiz = () => {
@@ -94,7 +100,7 @@ const Quiz = () => {
           Find out which character you're most like by taking the quiz below.
         </p>
         {!quizOver ? <ProgressBar completed={completed} /> : null}
-
+        {!isLoading ? <img src={spinner} alt="loading..." className="spinner"/> : null}
         {quizQuestions.length > 0 && !quizOver ? (
           <QuestionCard
             question={quizQuestions[number].question}

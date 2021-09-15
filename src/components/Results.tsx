@@ -15,7 +15,7 @@ const Results: React.FC<Props> = ({character_img, results_text, character_name})
             <TwitterShareButton
             character_name={character_name}
             url={''}
-            options={{text: `I took the Adventure Time Quiz and got ${character_name}!`}}
+            options={{text: `I took the Adventure Time Personality Quiz and got ${character_name}! Take the quiz to find out who you get`}}
             />
         </div>
     )
