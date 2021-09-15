@@ -4,7 +4,7 @@
   <a href="https://github.com/sarahdepalo/adventure-time-backend"><strong>Check Out the Quiz API »</strong></a>
 </p>
 
-Buzzfeed style Adventure Time Quiz - find out which character you're most like at [placeholder link]()! 
+Buzzfeed style Adventure Time Quiz - find out which character you're most like at [adventure-time-quiz.netlify.app/](https://adventure-time-quiz.netlify.app/)! 
 
 This project was built to practice writing TypeScript without a tutorial. My goal was to recreate the quiz style tutorial I had followed previously, but to make it more a bit more complicated and involved (and fun). Instead of using a published API, I created one specifically for this quiz. 
 
